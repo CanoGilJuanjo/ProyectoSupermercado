@@ -18,21 +18,32 @@
                     <label for="contrasena" class="form-label">Contraseña</label>
                     <input type="password" name="contrasena" id="" class="form-control">
                 </div>
+                <div class="mb-3">
+                    <label for="fecha" class="form-label">Fecha nacimiento</label>
+                    <input type="date" name="fecha" id="fecha" class="form-control">
+                </div>
                 <input type="submit" value="Registarse" class="btn btn-primary">
             </form>
         </div>
         <?php 
             require "funciones.php";
             if($_SERVER["REQUEST_METHOD"] == "POST"){
+                //comprobar que acepte letras y _
                 $usuario = $_POST["usuario"];
+
+                //Sin restricciones
                 $contrasena = $_POST["contrasena"];
+
+                //Comprobar que sea menor que 120 y mayor que 12
+                $fecha = $_POST["fecha"];
+                
 
                 #Codificamos los datos con los has
                 $contrasenaCifrada = password_hash($contrasena, PASSWORD_DEFAULT);
 
                 #conexion
                 $conexion = sqlConexionProyectoSupermercado();
-                $sql = "INSERT into usuarios values('$usuario','$contrasenaCifrada')";
+                $sql = "INSERT INTO usuarios VALUES('$usuario','$contrasenaCifrada','$fecha')";
                 $conexion -> query($sql);
             }
         ?>

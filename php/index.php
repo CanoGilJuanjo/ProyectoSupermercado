@@ -13,7 +13,7 @@
                 background-color: #8c8c8c;
                 color: black;
                 width: 30%;
-                height: 400px;
+                height: fit-content;
                 padding: 20px;
                 font-size: large;
                 border-radius: 20px;
@@ -30,30 +30,45 @@
             $conexion = sqlConexionProyectoSupermercado();
         ?>
         <div class="container">
-            <h1>Formulario Supermercado</h1>
-            <div class="login">
-                <form action="" method="push">
-                    <label for="usuario" class="form-label">Introduzca su nombre de usuario</label>
-                    <input type="text" name="usuario" class="form-control" id="usuario">
-                    <label for="contrasena" class="form-label">Introduzca su contraseña</label>
-                    <input type="password" class="form-control" name="contrasena" id="contrasena">
-                    <input type="submit" value="Iniciar sesion" class="btn btn-secondary border-light">
-                </form>
-                <?php 
-                    if($_SERVER["REQUEST_METHOD"] == "POST"){
-                        $sql = "SELECT * FROM usuarios where contrasena = '". $_POST["contrasena"] ."' and usuario = '". $_POST["usuario"] . "';";
-                        $resultado = $conexion -> query($sql);
-                        if($resultado -> num_rows == 0){
-                            echo "Validado con exito";
-                        }else{
-                            echo "No existe el usuario, registrese para poder acceder";
-                        }
+            <h1>Inicio de sesion</h1>
+            <form action="" method="post">
+                <div class="mb-3">
+                    <label for="usuario" class="form-label">Usuario</label>
+                    <input type="text" name="usuario" id="usuario" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="contrasena" class="form-label">Contraseña</label>
+                    <input type="password" name="contrasena" id="" class="form-control">
+                </div>
+                <input type="submit" value="Iniciar sesion" class="btn btn-primary">
+            </form>
+            <?php 
+                if($_SERVER["REQUEST_METHOD"] == "POST"){
+                    $usuario = $_POST["usuario"];
+                    $contrasena = $_POST["contrasena"];
+
+                    $sql = "SELECT * from usuarios where usuario = '$usuario'";
+                    $resultado = $conexion -> query($sql);
+                    
+                    
+                    $contrasenaCifrada = "";
+
+                    while($fila = $resultado -> fetch_assoc()){
+                        $contrasenaCifrada = $fila["contrasena"];
                     }
-                ?>
-            </div>
-            <div class="producto">
-                
-            </div>
+
+                    $acceso = password_verify($contrasena, $contrasenaCifrada);
+                    
+                    if($acceso){
+                        echo "Bienvenido ".$usuario;
+                        header("location: paginaPrincipal.php");
+                        session_start();
+                        $_SESSION["usuario"] = $usuario ;
+                    }else{
+                        echo "<p class='text-danger bg-light p-4'>Error en la contraseña o usuario </p>";
+                    }
+                }
+            ?>
         </div>
     </body>
 </html>
