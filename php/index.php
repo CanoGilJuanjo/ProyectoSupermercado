@@ -7,22 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Login</title>
         <link rel="stylesheet" href="../css/bootstrap.min.css">
-        <style>
-            .container{
-                margin: 0 auto;
-                background-color: #8c8c8c;
-                color: black;
-                width: 30%;
-                height: fit-content;
-                padding: 20px;
-                font-size: large;
-                border-radius: 20px;
-                margin-top: 100px;
-            }
-            input{
-                margin: 10px;
-            }
-        </style>
+        <link rel="stylesheet" href="../css/inicioRegistro.css">
     </head>
     <body>
         <?php 
@@ -41,6 +26,7 @@
                     <input type="password" name="contrasena" id="" class="form-control">
                 </div>
                 <input type="submit" value="Iniciar sesion" class="btn btn-primary">
+                
             </form>
             <?php 
                 if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -65,7 +51,7 @@
                         session_start();
                         $_SESSION["usuario"] = $usuario ;
                     }else{
-                        echo "<p class='text-danger bg-light p-4'>Error en la contraseña o usuario </p>";
+                        echo "<p class='text-danger bg-light p-4 rounded-3'>Error en la contraseña o usuario </p>";
                     }
                 }
             ?>

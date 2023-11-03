@@ -11,16 +11,12 @@ create table usuarios(
 
 create table cestas(
 	idCesta int(8) primary key auto_increment,
-    usuario varchar(12) references usuarios(usuario),
+    usuario varchar(12),
     precioTotal float default (0)
 );
 
 #Añadimos las claves foraneas
-ALTER TABLE usuarios ADD idCestas_fk int(8) NOT NULL;
-ALTER TABLE usuarios ADD CONSTRAINT pk_usuarios_cestas FOREIGN KEY (idCestas_fk) REFERENCES cestas(idCesta);
-
-alter table cestas add usuarios_fk varchar(12) not null;
-alter table cestas add constraint pk_cestas_usuarios foreign key (usuarios_fk) references usuarios(usuario);
+alter table cestas add constraint pk_cestas_usuarios foreign key (usuario) references usuarios(usuario);
 
 #Creamos el resto de tablas
 create table productos(
@@ -40,11 +36,12 @@ create table productosCestas (
 );
 
 #Añadimos las referencias a esta tabla intermedia y viceversa
-alter table productos add idCestas_fk int(8) not null;
-alter table productos add constraint pk_productos_productosCestas foreign key (idCestas_fk) references productosCestas(idCesta);
-alter table cestas add idProductos_fk int(8) not null;
-alter table cestas add constraint pk_cestas_productosCestas foreign key (idProductos_fk) references productosCestas(idProducto);
 
 #Borrado
 #drop database proyectosupermercado;
 #drop table cestas;
+#drop table usuarios;
+#delete from usuarios where usuario = "Rodrigo1";
+#Select
+#select * from cestas;
+#select * from usuarios;
