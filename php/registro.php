@@ -21,6 +21,21 @@
                 <input type="submit" value="Registarse" class="btn btn-primary">
             </form>
         </div>
+        <?php 
+            require "funciones.php";
+            if($_SERVER["REQUEST_METHOD"] == "POST"){
+                $usuario = $_POST["usuario"];
+                $contrasena = $_POST["contrasena"];
+
+                #Codificamos los datos con los has
+                $contrasenaCifrada = password_hash($contrasena, PASSWORD_DEFAULT);
+
+                #conexion
+                $conexion = sqlConexionProyectoSupermercado();
+                $sql = "INSERT into usuarios values('$usuario','$contrasenaCifrada')";
+                $conexion -> query($sql);
+            }
+        ?>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     </body>
 </html>
