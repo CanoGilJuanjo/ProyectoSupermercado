@@ -1,3 +1,4 @@
+#Schema
 create schema proyectosupermercado;
 use  proyectosupermercado;
 
@@ -14,6 +15,14 @@ create table cestas(
     precioTotal float default (0)
 );
 
+#Añadimos las claves foraneas
+ALTER TABLE usuarios ADD idCestas_fk int(8) NOT NULL;
+ALTER TABLE usuarios ADD CONSTRAINT pk_usuarios_cestas FOREIGN KEY (idCestas_fk) REFERENCES cestas(idCesta);
+
+alter table cestas add usuarios_fk varchar(12) not null;
+alter table cestas add constraint pk_cestas_usuarios foreign key (usuarios_fk) references usuarios(usuario);
+
+#Creamos el resto de tablas
 create table productos(
 	idProducto int(8) primary key not null,
     nombreProducto varchar(40) not null, #Tiene que aceptar solo numeros letras y espacios en blanco
@@ -21,21 +30,20 @@ create table productos(
     descripcion varchar(255) not null,
     cantidad int8 check(cantidad>=0) not null
 );
-
 create table productosCestas (
-	idProducto int8 references productos(idProducto),
-    idCesta int8 references cestas(idCesta),
+	idProducto int(8),
+    idCesta int(8) ,
     cantidad int check(cantidad >= 0 and cantidad <= 10) not null,
     constraint pk_productosCestas primary key (idProducto,idCesta),
     constraint pk_productosCestas_productos foreign key (idProducto) references productos(idProducto),
     constraint pk_productosCestas_cestas foreign key (idCesta) references cestas(idCesta)
 );
 
-
-
-#Aniadimos las referencias
-alter table productos add fk_idCesta int8 references productosCestas(idCesta);
-
+#Añadimos las referencias a esta tabla intermedia y viceversa
+alter table productos add idCestas_fk int(8) not null;
+alter table productos add constraint pk_productos_productosCestas foreign key (idCestas_fk) references productosCestas(idCesta);
+alter table cestas add idProductos_fk int(8) not null;
+alter table cestas add constraint pk_cestas_productosCestas foreign key (idProductos_fk) references productosCestas(idProducto);
 
 #Borrado
 #drop database proyectosupermercado;
