@@ -57,25 +57,16 @@
                     
                     //Comprobar que sea menor que 120 y mayor que 12
                     $fecha = $_POST["fecha"];
-                    $fechaHoy = date("o-m-d");     
-                    if($fecha){
-                        $añoHoy = (int) explode("-",$fechaHoy)[0];
-                        $año = (int)explode("-",$fecha)[0];
-                        $mes = (int)explode("-",$fecha)[1];
-                        $mesHoy = (int)explode("-",$fechaHoy)[1];
-                        $diaHoy = (int)explode("-",$fechaHoy)[2];
-                        $dia = (int)explode("-",$fecha)[2];
-                      
-                        if($cond1 && $añoHoy-$año>12 && $mesHoy-$mes<0 && $añoHoy-$año<=120){
+                    if($fecha && $cond1){;
+                        $fecha = new DateTime($fecha);
+                        $fechaHoy = new DateTime(date("Y-m-d"));
+                        $diferencia = $fechaHoy->diff($fecha);
+                        $diferencia =  $diferencia->format("%y");
+                        if($diferencia<120 && $diferencia>12){
                             $cond2 = true;
-                        }else if($cond1 && $añoHoy-$año>12 && $mesHoy-$mes==0 && $añoHoy-$año<=120){
-                            if($diaHoy - $dia <= 0){
-                                $cond2 = true;
-                            }else{
-                                echo "<p class='text-danger bg-light p-4 rounded-3'>Error en la fehca de nacimiento, tiene que superar los 12 años y ser menor de 120</p>";
-                            }
-                        }else if($cond1){
-                            echo "<p class='text-danger bg-light p-4 rounded-3'>Error en la fehca de nacimiento, tiene que superar los 12 años y ser menor de 120</p>";
+                            $fecha = $_POST["fecha"];
+                        }else{
+                            echo "<p class='text-danger bg-light p-4 rounded-3'>Error la edad tiene que ser mayor que 12 y menor que 120</p>";
                         }
                     }
 
