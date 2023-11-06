@@ -25,17 +25,24 @@
                     <label for="contrasena" class="form-label">Contraseña</label>
                     <input type="password" name="contrasena" id="" class="form-control">
                 </div>
-                <input type="submit" value="Iniciar sesion" class="btn btn-primary">
-                
+                <input type="submit" value="Iniciar sesion" name="acceso" class="btn btn-primary">
+                <input type="submit" value="Invitado" name="acceso" class="btn btn-primary">
+                <input type="submit" value="Registrarse" name="acceso" class="btn btn-primary">
             </form>
             <?php 
-                if($_SERVER["REQUEST_METHOD"] == "POST"){
+                if($_SERVER["REQUEST_METHOD"] == "POST" && $_POST["acceso"]=="Invitado"){
+                    session_start();
+                    $_SESSION["usuario"] = "Invitado";
+                    header("location: paginaPrincipal.php");
+                }else if($_SERVER["REQUEST_METHOD"] == "POST" && $_POST["acceso"]=="Registrarse"){
+                    header("location: registro.php");
+                }else if($_SERVER["REQUEST_METHOD"] == "POST"){
                     $usuario = $_POST["usuario"];
                     $contrasena = $_POST["contrasena"];
 
+                    //Traemos los registros que coincidan con el usuario
                     $sql = "SELECT * from usuarios where usuario = '$usuario'";
                     $resultado = $conexion -> query($sql);
-                    
                     
                     $contrasenaCifrada = "";
 
@@ -46,10 +53,11 @@
                     $acceso = password_verify($contrasena, $contrasenaCifrada);
                     
                     if($acceso){
-                        echo "Bienvenido ".$usuario;
-                        header("location: paginaPrincipal.php");
                         session_start();
                         $_SESSION["usuario"] = $usuario ;
+                        echo "Bienvenido ".$usuario;
+                        header("location: paginaPrincipal.php");
+                        
                     }else{
                         echo "<p class='text-danger bg-light p-4 rounded-3'>Error en la contraseña o usuario </p>";
                     }

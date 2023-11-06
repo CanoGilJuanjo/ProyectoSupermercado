@@ -44,4 +44,4 @@ create table productosCestas (
 #delete from usuarios where usuario = "Rodrigo1";
 #Select
 #select * from cestas;
-#select * from usuarios;
+select * from usuarios;
