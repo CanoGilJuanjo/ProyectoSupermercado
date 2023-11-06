@@ -66,13 +66,13 @@
                         $diaHoy = (int)explode("-",$fechaHoy)[2];
                         $dia = (int)explode("-",$fecha)[2];
                       
-                        if($cond1 && $añoHoy-$año>12 && $mesHoy-$mes>=0 && $añoHoy-$año<120){
-                            if($mesHoy-$mes==0 && $diaHoy-$dia>=0){
+                        if($cond1 && $añoHoy-$año>12 && $mesHoy-$mes<0 && $añoHoy-$año<=120){
+                            $cond2 = true;
+                        }else if($cond1 && $añoHoy-$año>12 && $mesHoy-$mes==0 && $añoHoy-$año<=120){
+                            if($diaHoy - $dia <= 0){
                                 $cond2 = true;
-                            }else if($mesHoy-$mes==0 && $diaHoy-$dia<0){
-                                echo "<p class='text-danger bg-light p-4 rounded-3'>Error en la fehca de nacimiento, tiene que superar los 12 años y ser menor de 120</p>";
                             }else{
-                                $cond2 = true;
+                                echo "<p class='text-danger bg-light p-4 rounded-3'>Error en la fehca de nacimiento, tiene que superar los 12 años y ser menor de 120</p>";
                             }
                         }else if($cond1){
                             echo "<p class='text-danger bg-light p-4 rounded-3'>Error en la fehca de nacimiento, tiene que superar los 12 años y ser menor de 120</p>";
