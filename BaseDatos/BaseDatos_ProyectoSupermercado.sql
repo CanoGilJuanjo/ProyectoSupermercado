@@ -26,6 +26,9 @@ create table productos(
     descripcion varchar(255) not null,
     cantidad int8 check(cantidad>=0) not null
 );
+
+alter table productos add column imagen varchar(100);
+
 create table productosCestas (
 	idProducto int(8),
     idCesta int(8) ,
@@ -47,3 +50,6 @@ delete from cestas where usuario = "mauricia";
 select * from cestas;
 select * from usuarios;
 select * from productos;
+delete from productos;
+
+delete  from usuarios;
