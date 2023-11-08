@@ -50,7 +50,14 @@
                         $cond3 = false;
 
                         //Validacion
-                        if(!$imagen){
+                        if(strlen($id) == 0){
+                            echo "Error el id es obligatorio";
+                        }else{
+                            $sql = "SELECT id from productos where idProducto";
+                        }
+
+
+                        if($imagen){
                             echo "Error la imagen es obligatoria";
                         }else{
                             if($imagen["type"] != "image/jpeg" && $imagen["type"] != "image/jpg" && $imagen["type"] != "image/png"){
@@ -65,9 +72,11 @@
                             }
                         }
 
-                        $conexion = sqlConexionProyectoSupermercado();
-                        $sql = "INSERT into productos values('$id','$nombre','$precio','$descripcion','$cantidad','$ruta')";
-                        $conexion -> query($sql);
+                        if($cond1){
+                            $conexion = sqlConexionProyectoSupermercado();
+                            $sql = "INSERT into productos values('$id','$nombre','$precio','$descripcion','$cantidad','$ruta')";
+                            $conexion -> query($sql);
+                        }
                     }
                 ?>
             </form>
