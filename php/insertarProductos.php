@@ -11,16 +11,12 @@
             <h1>Insertar productos</h1>
             <form action="" method="post" enctype="multipart/form-data">
                 <div>
-                    <label for="idProducto">Id del producto</label>
-                    <input type="text" name="idProducto" id="idProducto">
-                </div>
-                <div>
                     <label for="nombre">Nombre del producto</label>
                     <input type="text" name="nombre" id="nombre">
                 </div>
                 <div>
                     <label for="precio">Precio</label>
-                    <input type="number" name="precio" id="precio">
+                    <input type="number" step="0.01" name="precio" id="precio">
                 </div>
                 <div>
                     <label for="descripcion">Descripcion</label>
@@ -38,7 +34,6 @@
                 <?php
                     require "funciones.php";
                     if($_SERVER["REQUEST_METHOD"] == "POST"){
-                        $id = $_POST["idProducto"];
                         $nombre = $_POST["nombre"];
                         $precio = $_POST["precio"];
                         $descripcion = $_POST["descripcion"];
@@ -49,34 +44,23 @@
                         $cond1 = false;
                         $cond2 = false;
                         $cond3 = false;
-
-                        //Validacion id
-                        if(strlen($id) == 0){
-                            echo "Error el id es obligatorio";
-                        }else{
-                            if(sqlProductoExistenteId($id)){
-                                echo "Error el producto ya existe o el ID se esta usando para otro producto";
-                            }else{
-                                $cond1 = true;
-                            }
-
-                        }
+                        $cond4 = false;
 
                         //Validacion de nombre
                         if(strlen($nombre) == 0){
                             echo "Error el nombre es obligatorio";
-                        }else{
+                        }else if($cond1){
                             if(!sqlProductoExistenteNombre($nombre)){
                                 echo "Error el producto ya existe";
                             }else{
-                                $cond3 = true;
+                                $cond1 = true;
                             }
                         }
 
                         //Validacion Imagen
                         if($cond1 && strlen($imagen["name"]) == 0){
                             echo "Error la imagen es obligatoria";
-                        }else{
+                        }else if($cond1){
                             if($imagen["type"] != "image/jpeg" && $imagen["type"] != "image/jpg" && $imagen["type"] != "image/png"){
                                 echo "Error en el formato de imagen";
                             }else{
@@ -86,14 +70,38 @@
                                     $ruta = "media/" . $imagen["name"];
                                     move_uploaded_file($imagen["tmp_name"],$ruta);
                                     $cond2 = true;
-                                    
                                 }
                             }
                         }
 
-                        if($cond1 && $cond2){
+                        //Validacion de Precio
+                        if($cond1 && $cond2 &&  !is_numeric($precio)){
+                            echo "Error el precio es obligatorio y solo se aceptan numeros";
+                        }else if($cond1 && $cond2){
+                            $regex = "[0-9]+\.[0-9]+";
+                            if(!preg_match($regex, $precio)){
+                                echo "Error el precio tiene que indicarse con . no con ,";
+                            }else if($precio<0){
+                                echo "Error en precio no puede ser negativo";
+                            }else{
+                                $cond3 = true;
+                            }
+                        }
+
+                        //Validacion de la cantidad
+                        if($cond1 && $cond2 && $cond3 && (!is_numeric($cantidad)||is_null($cantidad))){
+                            echo "Error la cantidad es obligatoria y solo acepta numeros";
+                        }else if($cond1 && $cond2 && $cond3){
+                            if($cantidad<0){
+                                echo "Error la cantidad no puede ser menor que 0";
+                            }else{
+                                $cond4 = true;
+                            }
+                        }
+
+                        if($cond1 && $cond2 && $cond3 && $cond4){
                             $conexion = sqlConexionProyectoSupermercado();
-                            $sql = "INSERT into productos values('$id','$nombre','$precio','$descripcion','$cantidad','$ruta');";
+                            $sql = "INSERT into productos values(null,'$nombre','$precio','$descripcion','$cantidad','$ruta');";
                             $conexion -> query($sql); 
                             $file = fopen("../BaseDatos/InsertarContenido.sql","a");
                             fwrite($file,$sql."\n");

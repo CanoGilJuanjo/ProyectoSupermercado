@@ -20,7 +20,7 @@ alter table cestas add constraint pk_cestas_usuarios foreign key (usuario) refer
 
 #Creamos el resto de tablas
 create table productos(
-	idProducto int(8) primary key not null,
+	idProducto int(8) primary key not null auto_increment,
     nombreProducto varchar(40) not null, #Tiene que aceptar solo numeros letras y espacios en blanco
     precio float8 check(precio>=0) not null,
     descripcion varchar(255) not null,
@@ -44,12 +44,13 @@ create table productosCestas (
 drop database proyectosupermercado;
 #drop table cestas;
 #drop table usuarios;
-delete from usuarios where usuario = "mauricia";
-delete from cestas where usuario = "mauricia";
+#delete from usuarios where usuario = "mauricia";
+#delete from cestas where usuario = "mauricia";
 #Select
 select * from cestas;
 select * from usuarios;
 select * from productos;
-delete from productos;
+#delete from productos where idProducto = 2;
 
-delete  from usuarios;
+#delete  from usuarios;
+set SQL_SAFE_UPDATES = 0;
