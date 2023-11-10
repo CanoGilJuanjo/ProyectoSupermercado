@@ -73,11 +73,15 @@
                     //Salida
                     if($cond1 && $cond2){
                         #conexion
+                        $file = fopen("../BaseDatos/InsertarContenido.sql","a");
                         $conexion = sqlConexionProyectoSupermercado();
                         $sql = "INSERT INTO usuarios VALUES('$usuario','$contrasenaCifrada','$fecha');";
                         $conexion -> query($sql);
+                        fwrite($file,$sql."\n");
                         $sql = "INSERT into cestas values(null,'$usuario','0');";
                         $conexion -> query($sql);
+                        fwrite($file,$sql."\n");
+                        fclose($file);
                     }
                 }
             ?>
