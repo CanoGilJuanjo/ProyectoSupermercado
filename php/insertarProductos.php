@@ -32,6 +32,10 @@
                 </div>
                 <input type="submit" value="Enviar">
                 <?php
+                    session_start();
+                    if($_SESSION["rol"] != "Admin"){
+                        header("location: index.php");
+                    }
                     require "funciones.php";
                     if($_SERVER["REQUEST_METHOD"] == "POST"){
                         $nombre = $_POST["nombre"];

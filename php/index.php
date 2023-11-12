@@ -31,35 +31,52 @@
             </form>
             <?php 
                 if($_SERVER["REQUEST_METHOD"] == "POST" && $_POST["acceso"]=="Invitado"){
+                    //Si iniciamos sesion como invitado
                     session_start();
                     $_SESSION["usuario"] = "Invitado";
+                    $_SESSION["rol"] = "Invitado";
                     header("location: paginaPrincipal.php");
                 }else if($_SERVER["REQUEST_METHOD"] == "POST" && $_POST["acceso"]=="Registrarse"){
+                    //Cambiamos de pagina a la de registro
                     header("location: registro.php");
                 }else if($_SERVER["REQUEST_METHOD"] == "POST"){
+                    //Guardamos los datos del formulario
                     $usuario = $_POST["usuario"];
                     $contrasena = $_POST["contrasena"];
-
-                    //Traemos los registros que coincidan con el usuario
-                    $sql = "SELECT * from usuarios where usuario = '$usuario'";
-                    $resultado = $conexion -> query($sql);
                     
-                    $contrasenaCifrada = "";
+                    //Condiciones que se tienen que cumplir para acceder
+                    $cond1 = false;
+                    $cond2 = false;
 
-                    while($fila = $resultado -> fetch_assoc()){
-                        $contrasenaCifrada = $fila["contrasena"];
+                    //Comprobamos que exista el usuario
+                    if(sqlUsuariosExistenteNombre($usuario)){ 
+                        $cond1 = true;
+                    }else{
+                        echo "<p class='text-danger bg-light p-4 rounded-3'>Error el usuario no existe</p>";
                     }
 
-                    $acceso = password_verify($contrasena, $contrasenaCifrada);
-                    
-                    if($acceso){
-                        session_start();
-                        $_SESSION["usuario"] = $usuario ;
-                        echo "Bienvenido ".$usuario;
-                        header("location: paginaPrincipal.php");
+                    //Traemos los registros que coincidan con el usuario y realizamos el resto de comprobaciones
+                    if($cond1){
+                        $sql = "SELECT * from usuarios where usuario = '$usuario'";
+                        $resultado = $conexion -> query($sql);
                         
-                    }else{
-                        echo "<p class='text-danger bg-light p-4 rounded-3'>Error en la contraseña o usuario </p>";
+                        $contrasenaCifrada = "";
+                        while($fila = $resultado -> fetch_assoc()){
+                            $contrasenaCifrada = $fila["contrasena"];
+                            $rol = $fila["rol"];
+                        }
+                        
+                        $acceso = password_verify($contrasena, $contrasenaCifrada);
+                        
+                        if($acceso){
+                            session_start();
+                            $_SESSION["usuario"] = $usuario ;
+                            $_SESSION["rol"] = $rol;
+                            echo "Bienvenido ".$usuario;
+                            header("location: paginaPrincipal.php");
+                        }else{
+                            echo "<p class='text-danger bg-light p-4 rounded-3'>Error en la contraseña o usuario </p>";
+                        }
                     }
                 }
             ?>

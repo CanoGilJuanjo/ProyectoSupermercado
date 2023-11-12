@@ -8,7 +8,7 @@ create table usuarios(
     contrasena varchar(255) not null,
     fechaNacimiento date #tiene que tener mas de 12 anos y menos de 120
 );
-
+alter table usuarios add column rol varchar(100);
 create table cestas(
 	idCesta int(8) primary key auto_increment,
     usuario varchar(12),
@@ -44,7 +44,7 @@ create table productosCestas (
 drop database proyectosupermercado;
 #drop table cestas;
 #drop table usuarios;
-#delete from usuarios where usuario = "mauricia";
+delete from usuarios;
 #delete from cestas where usuario = "mauricia";
 #Select
 select * from cestas;
