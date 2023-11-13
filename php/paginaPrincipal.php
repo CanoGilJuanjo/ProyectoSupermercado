@@ -39,6 +39,7 @@
                 echo "<th>Descipcion</th>";
                 echo "<th>Cantidad</th>";
                 echo "<th>Imagen</th>";
+                echo "<th></th>";
                 echo "</tr>";
                 for($i = 0;$i<count($productos);$i++){
                     echo "<tr>";
@@ -48,6 +49,13 @@
                     echo "<td>".$productos[$i]->descripcion."</td>";
                     echo "<td>".$productos[$i]->cantidad."</td>";
                     echo "<td><img src='".$productos[$i]->imagen."' width='80' height='80'></td>";
+                    echo "<td>";?>
+                    <form method='post'>
+                        <input type="hidden" name="idProducto" value = "<?php echo $productos[$i]->idProducto ?>">
+                        <input type="submit" class="btn btn-warning" value="Añadir" name="anadir">
+                    </form>
+            <?php 
+                    echo "</td>";
                     echo "</tr>";
                 }
                 echo "</table>";
@@ -56,15 +64,20 @@
                 if($rol == "Admin"){
                     echo "<a href='insertarProductos.php'><button class='btn btn-primary'>Insertar producto</button></a>";
                 }
-
+            ?>
+            <form method="post">
+                <input class='btn btn-primary mt-3' type="submit" name="close" value="Cerrar Sesion">
+            </form>
+            <?php
                 if($_SERVER["REQUEST_METHOD"]=="POST"){
-                    header("location: index.php");
-                    session_destroy();
+                    if($_POST["close"]){
+                        header("location: index.php");
+                        session_destroy();
+                    }else if($_POST["anadir"]){
+
+                    }
                 }
             ?>
-            <form action="" method="post">
-                <input class='btn btn-primary mt-3' type="submit" name="cerrar" value="Cerrar Sesion">
-            </form>
         </div>
     </body>
 </html>
