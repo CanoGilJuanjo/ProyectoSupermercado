@@ -52,7 +52,7 @@
                     echo "<td>";?>
                     <form method='post'>
                         <input type="hidden" name="idProducto" value = "<?php echo $productos[$i]->idProducto ?>">
-                        <input type="submit" class="btn btn-warning" value="Añadir" name="anadir">
+                        <input type="submit" name="envio" value="Añadir" class="btn btn-warning">
                     </form>
             <?php 
                     echo "</td>";
@@ -66,15 +66,18 @@
                 }
             ?>
             <form method="post">
-                <input class='btn btn-primary mt-3' type="submit" name="close" value="Cerrar Sesion">
+                <input type="submit" name="envio" value="Cerrar Sesion" class='btn btn-primary mt-3'  >
             </form>
             <?php
                 if($_SERVER["REQUEST_METHOD"]=="POST"){
-                    if($_POST["close"]){
+                    if($_POST["envio"] == "Cerrar Sesion"){
                         header("location: index.php");
                         session_destroy();
-                    }else if($_POST["anadir"]){
-
+                    }else if($_POST["envio"] == "Añadir"){
+                        $sql = "SELECT nombreProducto from productos where idProducto = '".$_POST["idProducto"]."';";
+                        $conexion = sqlConexionProyectoSupermercado();
+                        $resultado = $conexion->query($sql);
+                        echo "Añadido el producto: " . $_POST["idProducto"]. " ".$resultado->fetch_assoc()["nombreProducto"] ;
                     }
                 }
             ?>
