@@ -3,11 +3,4 @@ INSERT into productos values(null,'Hamburguesa','15','Hamburguesa con carne de b
 INSERT into productos values(null,'Queso Gouda','3','Queso de vaca gouda','3','media/quesoGouda.jpg');
 INSERT into productos values(null,'Porro','5','Que va a ser, pues un porrito','1','media/porro.jpg');
 INSERT into productos values(null,'Jersey Mango','25.05','Jersey de cuello alto, con mangas anchas y cosido junto a una proteccion de plastico interior','10','media/jersey.jpg');
-INSERT INTO usuarios VALUES('juanjo','$2y$10$HoSIwE..8NSAUDOo2EqzmeYmPB2q35P5hqG.oNkq6.1YmZ3lrSNc6','2003-08-03','');
-INSERT into cestas values(null,'juanjo','0');
-INSERT INTO usuarios VALUES('juanjo','$2y$10$akr4GB1ziDnWh5K8ZWT7sOs8fZAMB.yi2M24DA9kzfmbwPz6weqZO','2003-08-03','Admin');
-INSERT into cestas values(null,'juanjo','0');
-INSERT INTO usuarios VALUES('juanjo','$2y$10$4bpFGuoGIunXpmAVpcH9IubdHlqmsiH2SWIQny/psgyk1OlKO17Ki','2003-08-03','Admin');
-INSERT into cestas values(null,'juanjo','0');
-INSERT INTO usuarios VALUES('juanjo','$2y$10$05.r6QtQEgQyOYJyWMcmJO0D8YSvrJYDqr9Tei5PW5NFb9ymneID6','2003-08-03','Admin');
-INSERT into cestas values(null,'juanjo','0');
+
