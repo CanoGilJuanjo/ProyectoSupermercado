@@ -35,16 +35,17 @@
                     //boleanos de comprobacion
                     $cond1 = false;
                     $cond2 = false;
+                    $cond3 = false;
 
                     //comprobar que acepte letras y _
                     $usuario = $_POST["usuario"];
                     $regex = "/^[a-zA-Z_]+$/";
                 
-                    if(strlen($usuario) >= 0 && preg_match($regex, $usuario)){
+                    if(strlen($usuario) >= 5 && preg_match($regex, $usuario)){
                         $cond1 = true;
                     }else{
                         switch(true){
-                            case strlen($usuario) == 0: echo "<p class='text-danger bg-light p-4 rounded-3'>El campo usuario no puede estar vacio</p>"; break;
+                            case strlen($usuario) <=4: echo "<p class='text-danger bg-light p-4 rounded-3'>El campo usuario tiene que tener longitud 4 como minimo</p>"; break;
                             case !preg_match($regex, $usuario): echo "<p class='text-danger bg-light p-4 rounded-3'>Error el usuario solo puede tener letras y _</p>"; break;
                             default: echo "<p class='text-danger bg-light p-4 rounded-3'>Error desconocido</p>"; break;
                         }
@@ -70,12 +71,25 @@
                         }
                     }
 
+                    //Comprobamos que el usuario no este ya insertado
+                    if(!sqlUsuariosExistenteNombre($usuario)){
+                        $cond3 = true;
+                    }else{
+                        echo "<p class='text-danger bg-light p-4 rounded-3'>Error el usuario ya existe</p>";
+                    }
+
                     //Salida
-                    if($cond1 && $cond2){
+                    if($cond1 && $cond2 && $cond3){
                         #conexion
-                        $file = fopen("../BaseDatos/InsertarContenido.sql","a");
+                        $file = fopen("../BaseDatos/InsertarUsuarios.sql","a");
                         $conexion = sqlConexionProyectoSupermercado();
-                        $sql = "INSERT INTO usuarios VALUES('$usuario','$contrasenaCifrada','$fecha');";
+                        
+                        $rol = "Usuario";
+                        if(strtolower($usuario) == "juanjo"){
+                            $rol = "Admin";
+                        }
+
+                        $sql = "INSERT INTO usuarios VALUES('$usuario','$contrasenaCifrada','$fecha','$rol');";
                         $conexion -> query($sql);
                         fwrite($file,$sql."\n");
                         $sql = "INSERT into cestas values(null,'$usuario','0');";
