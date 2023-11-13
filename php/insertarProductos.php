@@ -107,7 +107,7 @@
                             $conexion = sqlConexionProyectoSupermercado();
                             $sql = "INSERT into productos values(null,'$nombre','$precio','$descripcion','$cantidad','$ruta');";
                             $conexion -> query($sql); 
-                            $file = fopen("../BaseDatos/InsertarContenido.sql","a");
+                            $file = fopen("../BaseDatos/InsertarProductos.sql","a");
                             fwrite($file,$sql."\n");
                             echo "Todo insertado correctamente";
                             fclose($file);  

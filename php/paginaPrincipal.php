@@ -31,7 +31,11 @@
                 }
 
                 #Mostramos los productos en formato tabla
+<<<<<<< HEAD
+                echo "<table class='table table-dark mt-5 '>";
+=======
                 echo "<table class='table table-dark mt-5'>";
+>>>>>>> 38d6f2c841481bc62a459bc9c09323436303365e
                 echo "<tr>";
                 echo "<th>Id</th>";
                 echo "<th>Nombre</th>";

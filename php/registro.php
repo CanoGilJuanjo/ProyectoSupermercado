@@ -41,11 +41,11 @@
                     $usuario = $_POST["usuario"];
                     $regex = "/^[a-zA-Z_]+$/";
                 
-                    if(strlen($usuario) >= 0 && preg_match($regex, $usuario)){
+                    if(strlen($usuario) >= 5 && preg_match($regex, $usuario)){
                         $cond1 = true;
                     }else{
                         switch(true){
-                            case strlen($usuario) == 0: echo "<p class='text-danger bg-light p-4 rounded-3'>El campo usuario no puede estar vacio</p>"; break;
+                            case strlen($usuario) <=4: echo "<p class='text-danger bg-light p-4 rounded-3'>El campo usuario tiene que tener longitud 4 como minimo</p>"; break;
                             case !preg_match($regex, $usuario): echo "<p class='text-danger bg-light p-4 rounded-3'>Error el usuario solo puede tener letras y _</p>"; break;
                             default: echo "<p class='text-danger bg-light p-4 rounded-3'>Error desconocido</p>"; break;
                         }
@@ -81,7 +81,7 @@
                     //Salida
                     if($cond1 && $cond2 && $cond3){
                         #conexion
-                        $file = fopen("../BaseDatos/InsertarContenido.sql","a");
+                        $file = fopen("../BaseDatos/InsertarUsuarios.sql","a");
                         $conexion = sqlConexionProyectoSupermercado();
                         
                         $rol = "Usuario";
