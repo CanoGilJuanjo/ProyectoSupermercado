@@ -4,8 +4,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Registro</title>
-        <link rel="stylesheet" href="../css/bootstrap.min.css">
-        <link rel="stylesheet" href="../css/inicioRegistro.css">
+        <link rel="stylesheet" href="styles/bootstrap.min.css">
+        <link rel="stylesheet" href="styles/inicioRegistro.css">
     </head>
     <body>
         <div class="container">
@@ -84,9 +84,9 @@
                         $file = fopen("../BaseDatos/InsertarUsuarios.sql","a");
                         $conexion = sqlConexionProyectoSupermercado();
                         
-                        $rol = "Usuario";
+                        $rol = "cliente";
                         if(strtolower($usuario) == "juanjo"){
-                            $rol = "Admin";
+                            $rol = "admin";
                         }
 
                         $sql = "INSERT INTO usuarios VALUES('$usuario','$contrasenaCifrada','$fecha','$rol');";

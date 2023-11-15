@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Insertar productos</title>
-        <link rel="stylesheet" href="../css/bootstrap.min.css">
+        <link rel="stylesheet" href="styles/bootstrap.min.css">
     </head>
     <body>
         <div class="container">
@@ -33,10 +33,10 @@
                 <input type="submit" value="Enviar">
                 <?php
                     session_start();
-                    if($_SESSION["rol"] != "Admin"){
+                    if($_SESSION["rol"] != "admin"){
                         header("location: index.php");
                     }
-                    require "funciones.php";
+                    require "../util/funciones.php";
                     if($_SERVER["REQUEST_METHOD"] == "POST"){
                         $nombre = $_POST["nombre"];
                         $precio = $_POST["precio"];
@@ -71,7 +71,7 @@
                                 if($imagen["size"]>5*1024*1024){
                                     echo "Error el tamaño maximo de la imgen tiene que ser menor que 5MB";
                                 }else{
-                                    $ruta = "media/" . $imagen["name"];
+                                    $ruta = "images/" . $imagen["name"];
                                     move_uploaded_file($imagen["tmp_name"],$ruta);
                                     $cond2 = true;
                                 }

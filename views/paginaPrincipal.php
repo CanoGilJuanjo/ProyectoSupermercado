@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Pagina principal</title>
-        <link rel="stylesheet" href="../css/bootstrap.min.css">
+        <link rel="stylesheet" href="styles/bootstrap.min.css">
     </head>
     <body>
         <?php 
@@ -18,7 +18,7 @@
             <h2>Lista de productos</h2>
             <?php
                 #Obtenemos la conexion y los productos de la base de datos
-                require "funciones.php";
+                require "../util/funciones.php";
                 $conexion = sqlConexionProyectoSupermercado();
                 $sql = "SELECT * from productos;";
                 $resultado = $conexion->query($sql);
@@ -31,6 +31,7 @@
                 }
 
                 #Mostramos los productos en formato tabla
+                $productosCantidad = [];
                 echo "<table class='table table-dark mt-5'>";
                 echo "<tr>";
                 echo "<th>Id</th>";
@@ -39,6 +40,7 @@
                 echo "<th>Descipcion</th>";
                 echo "<th>Cantidad</th>";
                 echo "<th>Imagen</th>";
+                echo "<th>Añadidos</th>";
                 echo "<th></th>";
                 echo "</tr>";
                 for($i = 0;$i<count($productos);$i++){
@@ -49,6 +51,8 @@
                     echo "<td>".$productos[$i]->descripcion."</td>";
                     echo "<td>".$productos[$i]->cantidad."</td>";
                     echo "<td><img src='".$productos[$i]->imagen."' width='80' height='80'></td>";
+                    array_push($productosCantidad,0);
+                    echo "<td>".$productosCantidad[$i]."</td>";
                     echo "<td>";?>
                     <form method='post'>
                         <input type="hidden" name="idProducto" value = "<?php echo $productos[$i]->idProducto ?>">
@@ -61,7 +65,7 @@
                 echo "</table>";
 
                 //Si el rol es Admin 
-                if($rol == "Admin"){
+                if($rol == "admin"){
                     echo "<a href='insertarProductos.php'><button class='btn btn-primary'>Insertar producto</button></a>";
                 }
             ?>
@@ -74,10 +78,12 @@
                         header("location: index.php");
                         session_destroy();
                     }else if($_POST["envio"] == "Añadir"){
-                        $sql = "SELECT nombreProducto from productos where idProducto = '".$_POST["idProducto"]."';";
+                        /*
+                        $sql = "SELECT idCesta from cestas where usuario = '".$usuario."';";
                         $conexion = sqlConexionProyectoSupermercado();
                         $resultado = $conexion->query($sql);
-                        echo "Añadido el producto: " . $_POST["idProducto"]. " ".$resultado->fetch_assoc()["nombreProducto"] ;
+                        $sql = "INSERT into productosCestas values('".$_POST["idProducto"]."','".$resultado->fetch_assoc()["idCesta"]."',);";
+                        */
                     }
                 }
             ?>

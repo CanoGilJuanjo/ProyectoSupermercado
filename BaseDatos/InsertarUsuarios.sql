@@ -14,3 +14,5 @@ INSERT INTO usuarios VALUES('pepitoPalote','$2y$10$gCJW0pZyGlmFJ1iKi6D2dOBE3CGWT
 INSERT into cestas values(null,'pepitoPalote','0');
 INSERT INTO usuarios VALUES('Penloc','$2y$10$Xjgl1tOqTLYGTPDMT89bUu92VlUTKULNwCVKjGuEnwH39vXDDCO1W','2006-02-01','Usuario');
 INSERT into cestas values(null,'Penloc','0');
+INSERT INTO usuarios VALUES('juanjo','$2y$10$brKRNhuYmtvD5IHQnq8HZet6BOVzbfAtZyV8hgUEReQeBLiiwS1Qm','2003-08-03','admin');
+INSERT into cestas values(null,'juanjo','0');
