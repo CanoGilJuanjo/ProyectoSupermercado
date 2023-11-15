@@ -31,17 +31,15 @@
                 }
 
                 #Mostramos los productos en formato tabla
-                $productosCantidad = [];
                 echo "<table class='table table-dark mt-5'>";
                 echo "<tr>";
                 echo "<th>Id</th>";
                 echo "<th>Nombre</th>";
                 echo "<th>Precio</th>";
                 echo "<th>Descipcion</th>";
-                echo "<th>Cantidad</th>";
+                echo "<th>Disponibles</th>";
                 echo "<th>Imagen</th>";
-                echo "<th>Añadidos</th>";
-                echo "<th></th>";
+                echo "<th>Cantidad</th>";
                 echo "</tr>";
                 for($i = 0;$i<count($productos);$i++){
                     echo "<tr>";
@@ -51,13 +49,24 @@
                     echo "<td>".$productos[$i]->descripcion."</td>";
                     echo "<td>".$productos[$i]->cantidad."</td>";
                     echo "<td><img src='".$productos[$i]->imagen."' width='80' height='80'></td>";
-                    array_push($productosCantidad,0);
-                    echo "<td>".$productosCantidad[$i]."</td>";
-                    echo "<td>";?>
-                    <form method='post'>
-                        <input type="hidden" name="idProducto" value = "<?php echo $productos[$i]->idProducto ?>">
-                        <input type="submit" name="envio" value="Añadir" class="btn btn-warning">
-                    </form>
+                    echo "<td>";
+            ?>
+                <form method='post'> 
+                    <select name="cantidad" id="cantidad">
+                        <?php 
+                            if($productos[$i]->cantidad<5){
+                                $limite = $productos[$i]->cantidad;
+                            }else{
+                                $limite = 5;
+                            }
+                            for($j = 0;$j <= $limite;$j++){
+                                echo "<option value = '".($j)."'>".($j)."</option>";
+                            }
+                        ?>
+                    </select>
+                    <input type="hidden" name="idProducto" value = "<?php echo $productos[$i]->idProducto ?>">
+                    <input type="submit" name="envio" value="Añadir" class="btn btn-warning">
+                </form>
             <?php 
                     echo "</td>";
                     echo "</tr>";
@@ -70,20 +79,27 @@
                 }
             ?>
             <form method="post">
-                <input type="submit" name="envio" value="Cerrar Sesion" class='btn btn-primary mt-3'  >
+                <input type="submit" name="envio" value="Cerrar Sesion" class='btn btn-primary mt-3'>
             </form>
             <?php
                 if($_SERVER["REQUEST_METHOD"]=="POST"){
                     if($_POST["envio"] == "Cerrar Sesion"){
                         header("location: index.php");
-                        session_destroy();
+                          
                     }else if($_POST["envio"] == "Añadir"){
-                        /*
-                        $sql = "SELECT idCesta from cestas where usuario = '".$usuario."';";
-                        $conexion = sqlConexionProyectoSupermercado();
-                        $resultado = $conexion->query($sql);
-                        $sql = "INSERT into productosCestas values('".$_POST["idProducto"]."','".$resultado->fetch_assoc()["idCesta"]."',);";
-                        */
+                        if($usuario != "Invitado"){
+                            $cantidad = $_POST["cantidad"];
+                            $sql = "SELECT idCesta from cestas where usuario = '".$usuario."';";
+                            $conexion = sqlConexionProyectoSupermercado();
+                            $resultado = $conexion->query($sql);
+                            $sql = "INSERT into productosCestas values('".$_POST["idProducto"]."','".$resultado->fetch_assoc()["idCesta"]."','$cantidad');";
+                            $conexion->query($sql);
+                            $file = fopen("../BaseDatos/InsertarProductosCestas.sql","a");
+                            fwrite($file,$sql."\n");
+                            fclose($file);
+                        }else{
+                            echo "<p class='text-bg-info mt-4'>Tiene que iniciar sesion para poder comprar</p>";
+                        }
                     }
                 }
             ?>

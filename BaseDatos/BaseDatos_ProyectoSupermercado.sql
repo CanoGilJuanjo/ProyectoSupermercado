@@ -39,18 +39,6 @@ create table productosCestas (
 );
 
 #Añadimos las referencias a esta tabla intermedia y viceversa
+select * from productoscestas;
 
-#Borrado
-drop database proyectosupermercado;
-#drop table cestas;
-#drop table usuarios;
-delete from usuarios;
-#delete from cestas where usuario = "mauricia";
-#Select
-select * from cestas;
-select * from usuarios;
-select * from productos;
-#delete from productos where idProducto = 2;
-
-#delete  from usuarios;
 set SQL_SAFE_UPDATES = 0;

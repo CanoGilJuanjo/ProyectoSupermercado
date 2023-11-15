@@ -27,7 +27,7 @@
                 <input type="submit" value="Iniciar sesion" name="registro" class="btn btn-primary">
             </form>
             <?php 
-                require "funciones.php";
+                require "../util/funciones.php";
                 
                 if($_SERVER["REQUEST_METHOD"]=="POST" && $_POST["registro"] == "Iniciar sesion"){
                     header("location: index.php");
@@ -96,6 +96,11 @@
                         $conexion -> query($sql);
                         fwrite($file,$sql."\n");
                         fclose($file);
+                        session_start();
+                        $_SESSION["rol"] = $rol;
+                        $_SESSION["usuario"] = $usuario;
+                        header("location: paginaPrincipal.php");
+                        
                     }
                 }
             ?>
