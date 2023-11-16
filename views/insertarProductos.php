@@ -34,6 +34,7 @@
                 <?php
                     session_start();
                     if($_SESSION["rol"] != "admin"){
+                        session_destroy();
                         header("location: index.php");
                     }
                     require "../util/funciones.php";
@@ -53,8 +54,8 @@
                         //Validacion de nombre
                         if(strlen($nombre) == 0){
                             echo "Error el nombre es obligatorio";
-                        }else if($cond1){
-                            if(!sqlProductoExistenteNombre($nombre)){
+                        }else{
+                            if(sqlProductoExistenteNombre($nombre)){
                                 echo "Error el producto ya existe";
                             }else{
                                 $cond1 = true;
@@ -82,7 +83,7 @@
                         if($cond1 && $cond2 &&  !is_numeric($precio)){
                             echo "Error el precio es obligatorio y solo se aceptan numeros";
                         }else if($cond1 && $cond2){
-                            $regex = "[0-9]+\.[0-9]+";
+                            $regex = "/^[0-9]+\.[0-9]+$/";
                             if(!preg_match($regex, $precio)){
                                 echo "Error el precio tiene que indicarse con . no con ,";
                             }else if($precio<0){
@@ -115,6 +116,7 @@
                     }
                 ?>
             </form>
+            <a href="paginaPrincipal.php"><button class="btn btn-primary">Volver a incio</button></a>
         </div>
     </body>
 </html>

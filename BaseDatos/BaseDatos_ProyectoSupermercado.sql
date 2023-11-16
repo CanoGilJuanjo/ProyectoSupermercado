@@ -40,5 +40,9 @@ create table productosCestas (
 
 #Añadimos las referencias a esta tabla intermedia y viceversa
 select * from productoscestas;
+select *  from usuarios;
+select * from productos;
+select * from cestas;
+
 
 set SQL_SAFE_UPDATES = 0;

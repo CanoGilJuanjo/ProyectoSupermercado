@@ -37,12 +37,25 @@
     }
     function sqlProductoExistenteNombre($productoNombre) {
         $conexion = sqlConexionProyectoSupermercado();
-        $sql = "SELECT nombreProducto,idProducto from productos;";
+        $sql = "SELECT nombreProducto from productos;";
         $resultado = $conexion ->query($sql);
         while($row = $resultado -> fetch_assoc()) {
             if($resultado->num_rows == 0){
                 return false;
             }else if($row["nombreProducto"] == $productoNombre){
+                return true;
+            }
+        }
+        return false;
+    }
+    function sqlPedidoRealizado($productoId,$cestaId) {
+        $conexion = sqlConexionProyectoSupermercado();
+        $sql = "SELECT idProducto,idCesta from productoscestas where idCesta = '$cestaId';";
+        $resultado = $conexion ->query($sql);
+        while($row = $resultado -> fetch_assoc()) {
+            if($resultado->num_rows == 0){
+                return false;
+            }else if($row["idProducto"] == $productoId && $row["idCesta"] == $cestaId){
                 return true;
             }
         }
