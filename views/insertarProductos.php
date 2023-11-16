@@ -42,6 +42,12 @@
             
             <?php
                 session_start();
+                #Comprobamos la sesion
+                if($_SESSION["usuario"] == null){
+                    header("location: index.php");
+                }
+                
+                #Comprobamos el rol del usuario
                 if($_SESSION["rol"] != "admin"){ 
                     session_destroy();
                     header("location: index.php");

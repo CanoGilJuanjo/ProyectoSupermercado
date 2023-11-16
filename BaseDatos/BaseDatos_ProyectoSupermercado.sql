@@ -38,11 +38,24 @@ create table productosCestas (
     constraint pk_productosCestas_cestas foreign key (idCesta) references cestas(idCesta) on delete cascade
 );
 
+#Creamos la tabla pedidos
+create table pedidos(
+	idPedido int(8) primary key auto_increment,
+    usuario varchar(12) references usuarios(usuario),
+    precioTotal float,
+    fechaPedido timestamp on update current_timestamp
+);
+
+#Creamos la tabla lineas de pedidos
+create table lineasPedidos(
+	lineaPedido int(2) primary key,
+    idProducto int 
+);
 #Añadimos las referencias a esta tabla intermedia y viceversa
 select * from productoscestas;
 select *  from usuarios;
 select * from productos;
 select * from cestas;
-
+select * from lineaspedidos;
 
 set SQL_SAFE_UPDATES = 0;

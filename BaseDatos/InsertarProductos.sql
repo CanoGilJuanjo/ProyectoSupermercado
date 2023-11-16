@@ -4,3 +4,4 @@ INSERT into productos values(null,'Queso Gouda','3','Queso de vaca gouda','3','i
 INSERT into productos values(null,'Porro','5','Que va a ser, pues un porrito','1','images/porro.jpg');
 INSERT into productos values(null,'Jersey Mango','25.05','Jersey de cuello alto, con mangas anchas y cosido junto a una proteccion de plastico interior','10','images/jersey.jpg');
 INSERT into productos values(null,'Espaguetis','12.55','Espaguetis a la boloñesa','4','images/espaguetis.jpg');
+INSERT into productos values(null,'cartulina','12.45','Cartulina para niños','0','images/cartulina.jpg');
