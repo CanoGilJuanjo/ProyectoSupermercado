@@ -6,9 +6,9 @@
         <title>Pagina principal</title>
         <link rel="stylesheet" href="styles/bootstrap.min.css">
         <?php 
-            #Funciones necesarias para esta pagina
+            #Funciones/clases necesarias para esta pagina
             require "../util/funciones.php";
-            require "objetoProducto.php";
+            require "../util/objetoProducto.php";
         ?>
     </head>
     <body>
@@ -19,10 +19,12 @@
             $rol = $_SESSION["rol"];
             #Comprobamos cuando se haga un post a que corresponde
             if($_SERVER["REQUEST_METHOD"]=="POST"){
-                if($_POST["envio"] == "Cerrar Sesion"){
+                if(isset($_POST["envio"]) && $_POST["envio"] == "Cerrar Sesion"){
                     session_destroy();
                     header("location: index.php");
-                }else if($_POST["envio"] == "Añadir"){
+                }else if(isset($_POST["envio"]) && $_POST["envio"] == "Insertar producto"){
+                    header("location: insertarProductos.php");
+                }else if(isset($_POST["envio"]) && $_POST["envio"] == "Añadir"){
                     $sql = "SELECT idCesta from cestas where usuario = '".$usuario."';";
                     $conexion = sqlConexionProyectoSupermercado();
                     $resultado = $conexion->query($sql);
@@ -78,34 +80,34 @@
                     echo "<td><img src='".$productos[$i]->imagen."' width='80' height='80'></td>";
                     echo "<td>";
             ?>
-                <form method='post'> 
-                    <select name="cantidad" id="cantidad">
-                        <?php 
-                            if($productos[$i]->cantidad<5){
-                                $limite = $productos[$i]->cantidad;
-                            }else{
-                                $limite = 5;
-                            }
-                            for($j = 0;$j <= $limite;$j++){
-                                echo "<option value = '".($j)."'>".($j)."</option>";
-                            }
-                        ?>
-                    </select>
-                    <input type="hidden" name="idProducto" value = "<?php echo $productos[$i]->idProducto ?>">
-                    <input type="submit" name="envio" value="Añadir" class="btn btn-warning">
-                </form>
-            <?php 
-                    echo "</td>";
-                    echo "</tr>";
-                }
-                echo "</table>";
-                //Si el rol es Admin 
-                if($rol == "admin"){
-                    echo "<a href='insertarProductos.php'><button class='btn btn-primary'>Insertar producto</button></a>";
-                }
-            ?>
-            <form method="post">
-                <input type="submit" name="envio" value="Cerrar Sesion" class='btn btn-primary mt-3'>
+            <!--Necesitamos crear un formulario para que se guarde la cantidad y las opciones que inserte el usuario-->
+            <form method='post'> 
+                <select name="cantidad" id="cantidad">
+                    <?php 
+                        #Vamos a regular que el numero de opciones que aparecen en el desplegable son 5 o menos si no hay tantos productos
+                        if($productos[$i]->cantidad<5){
+                            $limite = $productos[$i]->cantidad;
+                        }else{
+                            $limite = 5;
+                        }
+                        for($j = 0;$j <= $limite;$j++){
+                            echo "<option value = '".($j)."'>".($j)."</option>";
+                        }
+                    ?>
+                </select>
+                <input type="hidden" name="idProducto" value = "<?php echo $productos[$i]->idProducto;?>">
+                <input type="submit" name="envio" value="Añadir" class="btn btn-warning">
+                <?php 
+                        echo "</td>";
+                        echo "</tr>";
+                    }
+                    echo "</table>";
+                    #Si el rol es Admin que aparezca el boton de insertar productos
+                    if($rol == "admin"){
+                        echo "<input type='submit' name='envio' value='Insertar producto' class='btn btn-primary'>";
+                    }
+                ?>
+                <input type="submit" name="envio" value="Cerrar Sesion" class='btn btn-primary'>
             </form>
         </div>
     </body>

@@ -7,13 +7,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Login</title>
         <link rel="stylesheet" href="styles/bootstrap.min.css">
-        <link rel="stylesheet" href="styles/inicioRegistro.css">
-    </head>
-    <body>
+        <link rel="stylesheet" href="styles/estilo.css">
         <?php 
             require "../util/funciones.php";
             $conexion = sqlConexionProyectoSupermercado();
         ?>
+    </head>
+    <body>
+        
         <div class="container">
             <h1>Inicio de sesion</h1>
             <form action="" method="post">
