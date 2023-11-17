@@ -62,10 +62,10 @@
                         $resultado = $conexion -> query($sql);
                         
                         $contrasenaCifrada = "";
-                        while($fila = $resultado -> fetch_assoc()){
-                            $contrasenaCifrada = $fila["contrasena"];
-                            $rol = $fila["rol"];
-                        }
+                        $fila = $resultado -> fetch_assoc();
+                        $contrasenaCifrada = $fila["contrasena"];
+                        $rol = $fila["rol"];
+                        
                         
                         $acceso = password_verify($contrasena, $contrasenaCifrada);
                         

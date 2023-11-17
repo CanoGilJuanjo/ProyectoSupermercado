@@ -88,7 +88,7 @@
                     array_push($productos,new Producto($fila["idProducto"],$fila["nombreProducto"],$fila["precio"],$fila["descripcion"],$fila["cantidad"],$fila["imagen"]));
                 }
                 #Mostramos los productos en formato tabla
-                echo "<table class='table table-dark mt-3'>";
+                echo "<table class='table table-dark mt-3 text-center align-middle'>";
                 echo "<tr>";
                 echo "<th>Id</th>";
                 echo "<th>Nombre</th>";
@@ -102,36 +102,39 @@
                     echo "<tr>";
                     echo "<td>".$productos[$i]->idProducto."</td>";
                     echo "<td>".$productos[$i]->nombreProducto."</td>";
-                    echo "<td>".$productos[$i]->precio."</td>";
-                    echo "<td>".$productos[$i]->descripcion."</td>";
+                    echo "<td>".$productos[$i]->precio." €</td>";
+                    echo "<td class = 'text-start'>".$productos[$i]->descripcion."</td>";
                     echo "<td>".$productos[$i]->cantidad."</td>";
                     echo "<td><img src='".$productos[$i]->imagen."' width='80' height='80'></td>";
                     echo "<td>";
             ?>
-                <form method='post'> 
-                    <select name="cantidad" id="cantidad">
-                        <?php 
-                            #Controlamos que no se puedan añadir a la cesta más de 5 productos o los que haya disponibles si son menos de 5
-                            if($productos[$i]->cantidad<5){
-                                $limite = $productos[$i]->cantidad;
-                            }else{
-                                $limite = 5;
-                            }
-                            for($j = 0;$j <= $limite;$j++){
-                                echo "<option value = '".($j)."'>".($j)."</option>";
-                            }
-                        ?>
-                    </select>
-                    <input type="hidden" name="idProducto" value = "<?php echo $productos[$i]->idProducto ?>">
-                    <?php
-                        if($productos[$i]->cantidad == 0){
-                            echo "<p>Agotado</p>";
-                        }else{
-                            echo "<input type='submit' name='envio' value='Añadir' class='btn btn-warning'>";
-                        }
-                    ?>
-                </form>
-            <?php 
+                <?php
+                    if($productos[$i]->cantidad > 0){
+                ?>
+                    <form method='post'> 
+                        
+                        <select name="cantidad" id="cantidad">
+                            <?php 
+                                #Controlamos que no se puedan añadir a la cesta más de 5 productos o los que haya disponibles si son menos de 5
+                                if($productos[$i]->cantidad<5){
+                                    $limite = $productos[$i]->cantidad;
+                                }else{
+                                    $limite = 5;
+                                }
+                                for($j = 0;$j <= $limite;$j++){
+                                    echo "<option value = '".($j)."'>".($j)."</option>";
+                                }
+                            ?>
+                        </select>
+                        <input type="hidden" name="idProducto" value = "<?php echo $productos[$i]->idProducto ?>">
+                        <input type='submit' name='envio' value='Añadir' class='btn btn-warning'>
+                    </form>
+                <?php
+                    }else{
+                        echo "<p>Agotado</p>";
+                    }
+                ?>
+                <?php 
                     echo "</td>";
                     echo "</tr>";
                 }

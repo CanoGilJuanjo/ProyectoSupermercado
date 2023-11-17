@@ -61,4 +61,17 @@
         }
         return false;
     }
+
+    function sqlCestaVacia($idCesta){
+        $conexion = sqlConexionProyectoSupermercado();
+        $sql = "SELECT precioTotal from cestas where idCesta = '$idCesta'";
+        $resultado = $conexion -> query($sql);
+        while($row = $resultado -> fetch_assoc()) {
+            if($row["precioTotal"] == 0){
+                return true;
+            }else{
+                return false;
+            }
+        }
+    }
 ?>
