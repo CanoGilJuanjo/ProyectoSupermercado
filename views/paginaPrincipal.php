@@ -62,7 +62,7 @@
                             echo "<p class='text-bg-info'>Añadidas ".$cantidad." unidades de ".$nombreProducto."</p>";
                             #Quitamos la cantidad de productos añadidas a la cesta
                             #Vamos a quitar la cantidad correspondiente en los productos
-                            $sql = "UPDATE productos set cantidad = '".($cantidadProducto - $cantidadProducto)."' WHERE idProducto = '".$_POST["idProducto"]."';";
+                            $sql = "UPDATE productos set cantidad = '".($cantidadProducto - $cantidad)."' WHERE idProducto = '".$_POST["idProducto"]."';";
                             $conexion->query($sql);
                         }
                     }
