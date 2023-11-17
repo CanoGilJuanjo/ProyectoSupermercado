@@ -6,6 +6,7 @@
         <title>Cesta</title>
         <link rel="stylesheet" href="styles/bootstrap.min.css">
         <link rel="stylesheet" href="styles/estiloCesta.css">
+        <link rel="shortcut icon" href="images/logo.png" type="image/x-icon">
         <?php
             #Funciones requeridas para esta pagina
             require "../util/funciones.php";
@@ -21,11 +22,11 @@
                 header("location: index.php");
             }
             #Comprobamos el rol del usuario
-            if($_SESSION["rol"] != "admin"){ 
+            if($_SESSION["rol"] != "admin" && $_SESSION["rol"] != "cliente"){ 
                 session_destroy();
                 header("location: index.php");
             }
-            
+
             $usuario = $_SESSION["usuario"];
 
             if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -56,7 +57,7 @@
                             $resultado2 = $conexion->query($sql);
                             while($fila2 = $resultado2->fetch_assoc()){
                                 $sql = "UPDATE productos set cantidad = '".($fila2["cantidad"] - $fila["cantidad"])."' WHERE idProducto = '".$fila["idProducto"]."';";
-                                //$conexion->query($sql);
+                                $conexion->query($sql);
                             }
                         }
                         #Realizamos el pedido y la lineapedido
