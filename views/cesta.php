@@ -49,17 +49,6 @@
                         $sql = "UPDATE cestas set precioTotal = '".$_POST["totalCesta"]."' WHERE usuario = '$usuario';"; 
                         $conexion->query($sql);
                         echo "<p class='text-bg-info'>Pedido realizado</p>";
-                        #Vamos a quitar la cantidad correspondiente en los productos
-                        $sql = "SELECT idProducto,cantidad from productoscestas where idCesta = '".$idCesta."'";
-                        $resultado = $conexion->query($sql);
-                        while($fila = $resultado->fetch_assoc()){
-                            $sql = "SELECT cantidad from productos where idProducto = '".$fila["idProducto"]."'";
-                            $resultado2 = $conexion->query($sql);
-                            while($fila2 = $resultado2->fetch_assoc()){
-                                $sql = "UPDATE productos set cantidad = '".($fila2["cantidad"] - $fila["cantidad"])."' WHERE idProducto = '".$fila["idProducto"]."';";
-                                $conexion->query($sql);
-                            }
-                        }
                         #Realizamos el pedido y la lineapedido
 
                         #Reseteamos las tablas cestas y productoscestas

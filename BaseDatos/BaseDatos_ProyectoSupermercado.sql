@@ -48,6 +48,7 @@ create table pedidos(
 );
 
 #Creamos la tabla lineas de pedidos
+
 create table lineasPedidos(
 	lineaPedido int(2) primary key auto_increment,
     idProducto int(8),
@@ -65,5 +66,6 @@ select * from cestas;
 select * from lineaspedidos;
 select * from pedidos;
 select * from lineaspedidos;
+
 
 set SQL_SAFE_UPDATES = 0;
