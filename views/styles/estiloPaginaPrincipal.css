@@ -1,0 +1,13 @@
+body{
+    background-color: black;
+    background-image: url("https://i.pinimg.com/originals/12/b2/3a/12b23a7752e8a7a4464c1ff5e596237f.gif");
+    background-repeat:round;
+}
+
+.container{
+    margin:  0px auto;
+    background-color: rgb(158, 158, 158);
+    border-radius: 30px;
+    border: 2px solid white;
+    box-shadow: 2px 2px 10px white;
+}

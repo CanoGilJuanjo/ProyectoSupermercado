@@ -1,5 +1,7 @@
 body{
     background-color: black;
+    background-image: url("https://i.pinimg.com/originals/fc/58/eb/fc58eb460b5dafec7c91a23252a78fee.gif");
+    background-repeat: round;
 }
 .container{
     padding: 20px;
@@ -9,4 +11,8 @@ body{
     margin: 0px auto;
     margin-top: 20px;
     box-shadow: 3px 3px 10px white;
+}
+p{
+    padding: 10px;
+    margin: 5px;
 }

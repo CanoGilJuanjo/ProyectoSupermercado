@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Pagina principal</title>
         <link rel="stylesheet" href="styles/bootstrap.min.css">
+        <link rel="stylesheet" href="styles/estiloPaginaPrincipal.css">
         <link rel="shortcut icon" href="images/logo.png" type="image/x-icon">
         <?php 
             #Funciones/clases necesarias para esta pagina
@@ -94,16 +95,19 @@
                     array_push($productos,new Producto($fila["idProducto"],$fila["nombreProducto"],$fila["precio"],$fila["descripcion"],$fila["cantidad"],$fila["imagen"]));
                 }
                 #Mostramos los productos en formato tabla
-                echo "<table class='table table-dark mt-3 text-center align-middle'>";
-                echo "<tr>";
-                echo "<th>Id</th>";
-                echo "<th>Nombre</th>";
-                echo "<th>Precio</th>";
-                echo "<th>Descipcion</th>";
-                echo "<th>Disponibles</th>";
-                echo "<th>Imagen</th>";
-                echo "<th>Cantidad</th>";
-                echo "</tr>";
+                echo "<table class='table table-striped mt-3 text-center align-middle'>";
+                echo "<thead class='table-light'>";
+                    echo "<tr>";
+                    echo "<th>Id</th>";
+                    echo "<th>Nombre</th>";
+                    echo "<th>Precio</th>";
+                    echo "<th>Descipcion</th>";
+                    echo "<th>Disponibles</th>";
+                    echo "<th>Imagen</th>";
+                    echo "<th>Cantidad</th>";
+                    echo "</tr>";
+                echo "</thead>";
+                echo "<tbody class ='table-dark'>";
                 for($i = 0;$i<count($productos);$i++){
                     echo "<tr>";
                     echo "<td>".$productos[$i]->idProducto."</td>";
@@ -144,6 +148,7 @@
                     echo "</td>";
                     echo "</tr>";
                 }
+                echo "</tbody>";
                 echo "</table>"; 
             ?>
             <form action="" method="post">

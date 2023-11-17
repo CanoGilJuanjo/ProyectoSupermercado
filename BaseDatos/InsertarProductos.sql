@@ -5,3 +5,4 @@ INSERT into productos values(null,'Porro','5','Que va a ser, pues un porrito','1
 INSERT into productos values(null,'Jersey Mango','25.05','Jersey de cuello alto, con mangas anchas y cosido junto a una proteccion de plastico interior','10','images/jersey.jpg');
 INSERT into productos values(null,'Espaguetis','12.55','Espaguetis a la boloñesa','4','images/espaguetis.jpg');
 INSERT into productos values(null,'cartulina','12.45','Cartulina para niños','0','images/cartulina.jpg');
+INSERT into productos values(null,'Monster Energetico','1000.90','Bebida energetica con suficiente cafeina para llegar al paro cardiaco','1010','images/monster.jpg');

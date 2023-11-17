@@ -20,7 +20,7 @@
     #Iniciamos sesion para traer el usuario
     session_start();
     #Comprobamos la sesion
-    if ($_SESSION["usuario"] == null) {
+    if ($_SESSION["usuario"] == null || $_SESSION["usuario"] == "Invitado") {
         header("location: index.php");
     }
     #Comprobamos el rol del usuario
@@ -42,18 +42,24 @@
                 header("location: index.php");
             } else
                 #Este boton termina la compra añadiendo el precio total a la cesta
-                if ($_POST["envio"] == "Terminar compra") {
-                    $sql = "SELECT idCesta from cestas where usuario = '$usuario'";
+            if ($_POST["envio"] == "Terminar compra") {
+                $sql = "SELECT idCesta from cestas where usuario = '$usuario'";
+                $resultado = $conexion->query($sql);
+                $idCesta = $resultado->fetch_assoc()["idCesta"];
+                if (sqlCestaVacia($idCesta)) {
+                    #Añadimos el precio total de la compra a la cesta
+                    $sql = "UPDATE cestas set precioTotal = '" . $_POST["totalCesta"] . "' WHERE usuario = '$usuario';";
+                    $conexion->query($sql);                    
+                    #Realizamos el pedido
+                    $sql = "SELECT idProducto from productoscestas where idCesta = '" . $idCesta . "'";
                     $resultado = $conexion->query($sql);
-                    $idCesta = $resultado->fetch_assoc()["idCesta"];
-                    if (sqlCestaVacia($idCesta)) {
-                        #Añadimos el precio total de la compra a la cesta
-                        $sql = "UPDATE cestas set precioTotal = '" . $_POST["totalCesta"] . "' WHERE usuario = '$usuario';";
+                    $salida = $resultado->fetch_assoc();
+                    if( $salida == null){
+                        echo "<p class='text-bg-danger'>No hay nada en la cesta</p>";
+                    }else{
+                        $sql = "INSERT into pedidos values(null,'$usuario','" . $_POST["totalCesta"] . "','".date("Y-m-d")."');";
                         $conexion->query($sql);
                         echo "<p class='text-bg-info'>Pedido realizado</p>";
-                        #Realizamos el pedido
-                        $sql = "INSERT into pedidos values(null,'$usuario','" . $_POST["totalCesta"] . "',null);";
-                        $conexion->query($sql);
                         #Hacemos la linea de pedido por cada producto
                         $sql = "SELECT * from productoscestas where idCesta = '" . $idCesta . "'";
                         $resultado = $conexion->query($sql);
@@ -68,12 +74,14 @@
                             }
                         }
                         #Reseteamos las tablas cestas y productoscestas
-
-                    } else {
-                        $sql = "UPDATE cestas set precioTotal = '0' where usuario = '$usuario';";
-                        $conexion->query($sql);
+                        $sql = "DELETE from productoscestas where idCesta = '$idCesta';";
+                        $conexion -> query($sql);
                     }
+                } else {
+                    $sql = "UPDATE cestas set precioTotal = '0' where usuario = '$usuario';";
+                    $conexion->query($sql);
                 }
+            }
     }
     ?>
     <div class="container">

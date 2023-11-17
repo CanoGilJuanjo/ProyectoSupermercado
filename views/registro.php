@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Registro</title>
         <link rel="stylesheet" href="styles/bootstrap.min.css">
-        <link rel="stylesheet" href="styles/estilo.css">
+        <link rel="stylesheet" href="styles/estiloInicio.css">
         <link rel="shortcut icon" href="images/logo.png" type="image/x-icon">
     </head>
     <body>

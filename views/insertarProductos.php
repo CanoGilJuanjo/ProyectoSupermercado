@@ -18,19 +18,19 @@
             <form action="" method="post" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="nombre" class="form-label">Nombre del producto</label>
-                    <input type="text" name="nombre" id="nombre" class="form-control">
+                    <input type="text" name="nombre" id="nombre" maxlength="40" class="form-control">
                 </div>
                 <div class="mb-3">
                     <label for="precio" class="form-label">Precio</label>
-                    <input type="number" step="0.01" name="precio" id="precio" min="0" class="form-control">
+                    <input type="number" step="0.01" name="precio" id="precio" min="0.01" max="9999.99" class="form-control">
                 </div>
                 <div class="mb-3">
                     <label for="descripcion" class="form-label">Descripcion</label>
-                    <input type="text" name="descripcion" id="descripcion" class="form-control">
+                    <input type="text" name="descripcion" id="descripcion" max="255" class="form-control">
                 </div>
                 <div class="mb-3">
                     <label for="cantidad" class="form-label">Cantidad del producto</label>
-                    <input type="number" name="cantidad" id="cantidad" min="0" class="form-control">
+                    <input type="number" name="cantidad" id="cantidad" min="0" max="99999" class="form-control">
                 </div>
                 <div class="mb-3">
                     <label for="imagen" class="form-label">Imagen del producto</label>
@@ -76,11 +76,18 @@
                     //Validacion de nombre
                     if(strlen($nombre) == 0){
                         echo "<p class='text-danger bg-light p-4 rounded-3 mt-3'>Error el nombre es obligatorio</p>";
+                    }else if(strlen($nombre) > 40){
+                        echo "<p class='text-danger bg-light p-4 rounded-3 mt-3'>Error el nombre debe tener menos de 40 caracteres</p>";
                     }else{
-                        if(sqlProductoExistenteNombre($nombre)){
-                            echo "<p class='text-danger bg-light p-4 rounded-3 mt-3'>Error el producto ya existe</p>";
+                        $regex = "/^[a-zA-Z0-9\s]{0,40}$^/";
+                        if(preg_match($regex,$nombre)){
+                            echo "<p class='text-danger bg-light p-4 rounded-3 mt-3'>Error el nombre debe estar compuesto solo por letras numeros y espacios en blanco</p>";
                         }else{
-                            $cond1 = true;
+                            if(sqlProductoExistenteNombre($nombre)){
+                                echo "<p class='text-danger bg-light p-4 rounded-3 mt-3'>Error el producto ya existe</p>";
+                            }else{
+                                $cond1 = true;
+                            }
                         }
                     }
 
@@ -111,6 +118,8 @@
                         }else*/ 
                         if($precio<0){
                             echo "<p class='text-danger bg-light p-4 rounded-3 mt-3'>Error en precio no puede ser negativo</p>";
+                        }else if($precio>9999.99){
+                            echo "<p class='text-danger bg-light p-4 rounded-3 mt-3'>Error el valor del precio es demasiado alto, como maximo 9999,99</p>";
                         }else{
                             $cond3 = true;
                         }
@@ -122,6 +131,8 @@
                     }else if($cond1 && $cond2 && $cond3){
                         if($cantidad<0){
                             echo "<p class='text-danger bg-light p-4 rounded-3 mt-3'>Error la cantidad no puede ser menor que 0</p>";
+                        }else if($cantidad>99999){
+                            echo "<p class='text-danger bg-light p-4 rounded-3 mt-3'>Error la cantidad es demasiado alta, como maximo 99999</p>";
                         }else{
                             $cond4 = true;
                         }
@@ -133,7 +144,7 @@
                         $conexion -> query($sql); 
                         $file = fopen("../BaseDatos/InsertarProductos.sql","a");
                         fwrite($file,$sql."\n");
-                        echo "<p class='text-danger bg-light p-4 rounded-3 mt-3'>Todo insertado correctamente</p>";
+                        echo "<p class='text-info bg-light p-4 rounded-3 mt-3'>Todo insertado correctamente</p>";
                         fclose($file);  
                     }
                 }
