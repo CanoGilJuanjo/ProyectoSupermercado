@@ -49,20 +49,21 @@ create table pedidos(
 
 #Creamos la tabla lineas de pedidos
 create table lineasPedidos(
-	lineaPedido int(2) primary key,
+	lineaPedido int(2) primary key auto_increment,
     idProducto int(8),
     idPedido int(8),
-    precioUnitario float(8),
+    precioUnitario float8,
     cantidad int(8),
     constraint pk_lineasPedidos_idProducto foreign key (idProducto) references productos(idProducto) on delete cascade,
-    constraint pk_lineasPedidos_idPedido foreign key (idPedido) references pedidos(idPedido) on delete cascade,
-    constraint pk_lineasPedidos_precioUnitario foreign key (precioUnitario) references productos(precio) on delete cascade
+    constraint pk_lineasPedidos_idPedido foreign key (idPedido) references pedidos(idPedido) on delete cascade
 );
 #Añadimos las referencias a esta tabla intermedia y viceversa
 select * from productoscestas;
 select *  from usuarios;
 select * from productos;
 select * from cestas;
+select * from lineaspedidos;
+select * from pedidos;
 select * from lineaspedidos;
 
 set SQL_SAFE_UPDATES = 0;
