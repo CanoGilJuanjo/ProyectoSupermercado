@@ -55,26 +55,30 @@
                     $resultado = $conexion->query($sql);
                     $salida = $resultado->fetch_assoc();
                     if( $salida == null){
-                        echo "<p class='text-bg-danger'>No hay nada en la cesta</p>";
+                        echo "<p class='text-bg-danger text-center'>No hay nada en la cesta</p>";
                     }else{
                         $sql = "INSERT into pedidos values(null,'$usuario','" . $_POST["totalCesta"] . "','".date("Y-m-d")."');";
                         $conexion->query($sql);
-                        echo "<p class='text-bg-info'>Pedido realizado</p>";
+                        echo "<p class='text-bg-info text-center'>Pedido realizado</p>";
                         #Hacemos la linea de pedido por cada producto
                         $sql = "SELECT * from productoscestas where idCesta = '" . $idCesta . "'";
                         $resultado = $conexion->query($sql);
                         while ($fila = $resultado->fetch_assoc()){
                             $sql = "SELECT * from productos where idProducto = '" . $fila["idProducto"] . "'";
                             $resultado2 = $conexion->query($sql);
+                            $contador = 0;
                             while ($fila2 = $resultado2->fetch_assoc()){
                                 $sql = "SELECT idPedido from pedidos where usuario = '$usuario';";
                                 $idPedido = $conexion->query($sql)->fetch_assoc()["idPedido"];
-                                $sql = "INSERT into lineaspedidos values(null,'".$fila["idProducto"]."','$idPedido','".$fila2["precio"]."','".$fila["cantidad"]."');";
+                                $sql = "INSERT into lineaspedidos values('$contador','".$fila["idProducto"]."','$idPedido','".$fila2["precio"]."','".$fila["cantidad"]."');";
                                 $conexion->query($sql);
+                                $contador++;
                             }
                         }
                         #Reseteamos las tablas cestas y productoscestas
                         $sql = "DELETE from productoscestas where idCesta = '$idCesta';";
+                        $conexion -> query($sql);
+                        $sql = "DELETE FROM cestas where idCesta = '$idCesta';";
                         $conexion -> query($sql);
                     }
                 } else {

@@ -9,17 +9,19 @@ create table usuarios(
     contrasena varchar(255) not null,
     fechaNacimiento date #tiene que tener mas de 12 anos y menos de 120
 );
-alter table usuarios add column rol varchar(100);
+#Añadimos la columna rol
+alter table usuarios add column rol varchar(100) default("cliente");
+
+#Creamos la tabla cestas
 create table cestas(
 	idCesta int(8) primary key auto_increment,
     usuario varchar(12),
     precioTotal float default (0)
 );
-
 #Añadimos las claves foraneas
 alter table cestas add constraint pk_cestas_usuarios foreign key (usuario) references usuarios(usuario) on delete cascade;
 
-#Creamos el resto de tablas
+#Creamos la tabla productos
 create table productos(
 	idProducto int(8) primary key not null auto_increment,
     nombreProducto varchar(40) not null, #Tiene que aceptar solo numeros letras y espacios en blanco
@@ -27,9 +29,10 @@ create table productos(
     descripcion varchar(255) not null,
     cantidad int8 check(cantidad>=0) not null
 );
-
+#Añadimos la columna imagen
 alter table productos add column imagen varchar(100);
 
+#Creamos la tabla productoscestas
 create table productosCestas (
 	idProducto int(8),
     idCesta int(8) ,
@@ -44,13 +47,12 @@ create table pedidos(
 	idPedido int(8) primary key auto_increment,
     usuario varchar(12) references usuarios(usuario),
     precioTotal float,
-    fechaPedido timestamp on update current_timestamp
+    fechaPedido date #Dia actual
 );
 
 #Creamos la tabla lineas de pedidos
-
 create table lineasPedidos(
-	lineaPedido int(2) primary key auto_increment,
+	lineaPedido int(2),
     idProducto int(8),
     idPedido int(8),
     precioUnitario float8,
@@ -66,6 +68,5 @@ select * from cestas;
 select * from lineaspedidos;
 select * from pedidos;
 select * from lineaspedidos;
-
 
 set SQL_SAFE_UPDATES = 0;

@@ -38,29 +38,26 @@
                 #Con este boton tenemos que comprobar si el usuario puede acceder a la compra e insertamos los productos en la tabla productosCestas
                 if($_POST["envio"] == "Añadir"){
                     if($usuario == "Invitado"){
-                        echo "<p class='text-bg-info'>Tiene que iniciar sesion para poder comprar</p>";
+                        echo "<p class='text-bg-info text-center'>Tiene que iniciar sesion para poder comprar</p>";
                     }else if($_POST["cantidad"]<="0"){
-                        echo "<p class='text-bg-info'>No se pueden insertar 0 unidades</p>";
+                        echo "<p class='text-bg-info text-center'>No se pueden insertar 0 unidades</p>";
                     }else{
                         $sql = "SELECT idCesta from cestas where usuario = '".$usuario."';";
                         $resultado = $conexion->query($sql);
                         $idCesta = $resultado->fetch_assoc()["idCesta"];
                         if(sqlPedidoRealizado($_POST["idProducto"],$idCesta)){
-                            echo "<p class='text-bg-info'>Ya ha añadido este producto</p>";
+                            echo "<p class='text-bg-info text-center'>Ya ha añadido este producto</p>";
                         }else{
                             #Añadimos a la cesta el producto
                             $cantidad = $_POST["cantidad"];
                             $sql = "INSERT into productosCestas values('".$_POST["idProducto"]."','".$idCesta."','$cantidad');";
                             $conexion->query($sql);
-                            $file = fopen("../BaseDatos/InsertarProductosCestas.sql","a");
-                            fwrite($file,$sql."\n");
-                            fclose($file);
                             $sql = "SELECT nombreProducto,cantidad from productos where idProducto = '".$_POST["idProducto"]."';";
                             $resultado = $conexion->query($sql);
                             $cantidadProducto = $resultado->fetch_assoc()["cantidad"];
                             $resultado = $conexion->query($sql);
                             $nombreProducto = $resultado->fetch_assoc()["nombreProducto"];
-                            echo "<p class='text-bg-info'>Añadidas ".$cantidad." unidades de ".$nombreProducto."</p>";
+                            echo "<p class='text-bg-info text-center'>Añadidas ".$cantidad." unidades de ".$nombreProducto."</p>";
                             #Quitamos la cantidad de productos añadidas a la cesta
                             #Vamos a quitar la cantidad correspondiente en los productos
                             $sql = "UPDATE productos set cantidad = '".($cantidadProducto - $cantidad)."' WHERE idProducto = '".$_POST["idProducto"]."';";
