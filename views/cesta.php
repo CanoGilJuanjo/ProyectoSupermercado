@@ -78,7 +78,7 @@
                         #Reseteamos las tablas cestas y productoscestas
                         $sql = "DELETE from productoscestas where idCesta = '$idCesta';";
                         $conexion -> query($sql);
-                        $sql = "DELETE FROM cestas where idCesta = '$idCesta';";
+                        $sql = "UPDATE cestas set precioTotal = '0' where usuario = '$usuario';";
                         $conexion -> query($sql);
                     }
                 } else {
