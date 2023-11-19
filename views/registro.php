@@ -94,9 +94,11 @@
                         
                         $rol = "cliente";
                         /*Administrador por defecto*/
+                        /*
                         if(strtolower($usuario) == "juanjo"){
                             $rol = "admin";
                         }
+                        */
 
                         $sql = "INSERT INTO usuarios VALUES('$usuario','$contrasenaCifrada','$fecha','$rol');";
                         $conexion -> query($sql);
