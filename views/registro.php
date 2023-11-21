@@ -69,11 +69,15 @@
                     if($fecha && $cond1 && $cond2){;
                         $fecha = new DateTime($fecha);
                         $fechaHoy = new DateTime(date("Y-m-d"));
-                        $diferencia = $fechaHoy->diff($fecha);
-                        $diferencia =  $diferencia->format("%y");
-                        if($diferencia<120 && $diferencia>12){
-                            $cond3 = true;
-                            $fecha = $_POST["fecha"];
+                        if(explode("-",$_POST["fecha"])[0] <= explode("-",date("o-m-d"))[0]){
+                            $diferencia = $fechaHoy->diff($fecha);
+                            $diferencia =  $diferencia->format("%y");
+                            if($diferencia<120 && $diferencia>12){
+                                $cond3 = true;
+                                $fecha = $_POST["fecha"];
+                            }else{
+                                echo "<p class='text-danger bg-light p-4 rounded-3 text-center'>Error la edad tiene que ser mayor que 12 y menor que 120</p>";
+                            }
                         }else{
                             echo "<p class='text-danger bg-light p-4 rounded-3 text-center'>Error la edad tiene que ser mayor que 12 y menor que 120</p>";
                         }
