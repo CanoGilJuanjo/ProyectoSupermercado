@@ -66,7 +66,7 @@
                         while ($fila = $resultado->fetch_assoc()){
                             $sql = "SELECT * from productos where idProducto = '" . $fila["idProducto"] . "'";
                             $resultado2 = $conexion->query($sql);
-                            $contador = 0;
+                            $contador = 1;
                             while ($fila2 = $resultado2->fetch_assoc()){
                                 $sql = "SELECT idPedido from pedidos where usuario = '$usuario';";
                                 $idPedido = $conexion->query($sql)->fetch_assoc()["idPedido"];
